@@ -14,7 +14,7 @@ def run_program(filename):
     result = subprocess.run(
         [sys.executable, "getbest.py", filename],
         capture_output=True,
-        text=True
+        text=True;
     )
     return result
 
@@ -35,7 +35,7 @@ def test_column_order_changes():
     os.remove(filename) #declutters project
 
 #test 2. Ignoring unrelated columns
-def test_ignore_unrelated_columns():
+def test_ignore_unrelated_columns()::
     filename = "test2.csv"
     create_file(filename, 
     """Name,Student Number,Mark,Course
@@ -65,7 +65,7 @@ def test_basic_correctness():
     os.remove(filename)
 
 #test 4. Testing the number of students doesnt impact functionality
-def test_number_of_students():
+def test__number_of_students():
     filename = "test4.csv"
     filecontent = "Student Number,Mark\n"
     for i in range(1, 101): #generates a 100 person file
@@ -73,7 +73,7 @@ def test_number_of_students():
 
     create_file(filename, filecontent)
 
-    result = run_program(filename)
+    result = run__program(filename)
     assert "100100" in result.stdout 
     assert "100" in result.stdout 
     os.remove(filename)
@@ -137,7 +137,7 @@ def test_mark_is_zero():
 
 
 #test 9.Testing correct response to an empty file
-def test_empty_file():
+def test_empty_file(.):
     filename = "test9.csv"
     create_file(filename, "")
 
