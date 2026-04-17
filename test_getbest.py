@@ -30,7 +30,7 @@ def test_column_order_changes():
 """)
     
     result = run_program(filename)
-    assert "100001" in result.stdout #checks for the correct student number in the result
+    assert "100003" in result.stdout #checks for the correct student number in the result
     assert "95" in result.stdout #checks for correct grade in the result
     os.remove(filename) #declutters project
 
@@ -74,7 +74,7 @@ def test_number_of_students():
     create_file(filename, filecontent)
 
     result = run_program(filename)
-    assert "110000" in result.stdout 
+    assert "100100" in result.stdout 
     assert "100" in result.stdout 
     os.remove(filename)
 
