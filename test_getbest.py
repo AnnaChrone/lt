@@ -1,6 +1,7 @@
 import pytest
 import subprocess
 import os
+import sys
 
 
 #Helper function to allow each test to create a temporary CSV file with test data in it
@@ -11,7 +12,7 @@ def create_file(filename, content):
 #Helper function that runs the program and captures the printed output and whether the program crashes or not
 def run_program(filename):
     result = subprocess.run(
-        ["python3", "getbest.py", filename],
+        [sys.executable, "getbest.py", filename],
         capture_output=True,
         text=True
     )
@@ -22,11 +23,11 @@ def run_program(filename):
 def test_column_order_changes():
     filename = "test1.csv"
     create_file(filename,
-    """Mark,Student Number
-    70,100001
-    85,100002
-    95,100003
-    """)
+"""Mark,Student Number
+70,100001
+85,100002
+95,100003
+""")
     
     result = run_program(filename)
     assert "100001" in result.stdout #checks for the correct student number in the result
@@ -38,10 +39,10 @@ def test_ignore_unrelated_columns():
     filename = "test2.csv"
     create_file(filename, 
     """Name,Student Number,Mark,Course
-    Linsey,100001,60,Math
-    Claire,100002,99,CS
-    Charlie,100003,80,Physics
-    """)
+Linsey,100001,60,Math
+Claire,100002,99,CS
+Charlie,100003,80,Physics
+""")
     
     result = run_program(filename)
     assert "100002" in result.stdout
@@ -53,10 +54,10 @@ def test_basic_correctness():
     filename = "test3.csv"
     create_file(filename, 
     """Student Number,Mark
-    100005,70
-    100006,65
-    100007,95
-    """)
+100005,70
+100006,65
+100007,95
+""")
     
     result= run_program(filename)
     assert "100007" in result.stdout
@@ -80,10 +81,10 @@ def test_number_of_students():
 #test 5. Testing that a single student doesnt impact functionality
 def test_single_student():
     filename = "test5.csv"
-    create_file(filename, 
-    """Student Number,Mark
-    100001,75
-    """)
+    create_file(filename,
+"""Student Number,Mark
+100001,75
+""")
 
     result = run_program(filename)
     assert "100001" in result.stdout
@@ -96,10 +97,10 @@ def test_highest_mark_in_first_row():
     filename = "test6.csv"
     create_file(filename, 
     """Student Number,Mark
-    100001,99
-    100002,40
-    100003,50
-    """)
+100001,99
+100002,40
+100003,50
+""")
     
     result = run_program(filename)
     assert "100001" in result.stdout
@@ -111,10 +112,10 @@ def test_highest_mark_in_last_row():
     filename = "test7.csv"
     create_file(filename, 
     """Student Number,Mark
-    100001,30
-    100002,20
-    100003,99
-    """)
+100001,30
+100002,20
+100003,99
+""")
 
     result = run_program(filename)
     assert "100003" in result.stdout
@@ -125,9 +126,9 @@ def test_highest_mark_in_last_row():
 def test_mark_is_zero():
     filename = "test8.csv"
     create_file(filename,
-    """Student Number,Mark
-    100001,0
-    """)
+"""Student Number,Mark
+100001,0
+""")
 
     result = run_program(filename)
     assert "100001" in result.stdout
@@ -140,6 +141,6 @@ def test_empty_file():
     filename = "test9.csv"
     create_file(filename, "")
 
-    result = run_program
+    result = run_program(filename)
     assert result.returncode != 0
     os.remove(filename)
